@@ -1,0 +1,28 @@
+@startuml
+
+start
+:Receive a JSON file and the ingestion rate;
+:Parse the JSON file;
+:Initialize the world;
+while (Have all orders been delivered?) is (No)
+	:Age the food;
+	:Deliver some of the food;
+	if (Are there new orders to process?) then (Yes)
+		fork
+			:Get a new order;
+			:Lock the mutex;
+			:Store the food in one of the shelves;
+			:Release the mutex;
+		fork again
+			:Get a new order;
+			:Lock the mutex;
+			:Store the food in one of the shelves;
+			:Release the mutex;
+		end fork
+	else (No)
+	endif
+	:Log the values of the food on the shelf;
+endwhile (Yes)
+stop
+
+@enduml
